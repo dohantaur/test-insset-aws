@@ -1,6 +1,6 @@
 var Hapi = require('hapi');
 var Good = require('good');
-
+var primeCalculator = require('./libs/calculate');
 var server = new Hapi.Server();
 server.connection({ port: process.env.PORT || 3000 });
 
@@ -33,6 +33,14 @@ server.route([
       setTimeout(()=> {
         reply('Ok: ' + request.params.value);
       }, request.params.value * 1000);
+    }
+  },
+  {
+    method: 'GET',
+    path: '/prime-number/{occurenceCount}',
+    handler(request, reply) {
+      console.log('handler')
+      reply(primeCalculator(request.params.occurenceCount));
     }
   }
 ]);
