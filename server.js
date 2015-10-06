@@ -2,14 +2,14 @@ var Hapi = require('hapi');
 var Good = require('good');
 
 var server = new Hapi.Server();
-server.connection({ port: 80 });
+server.connection({ port: process.env.PORT || 3000 });
 
 server.route([
   {
     method: 'GET',
     path: '/',
     handler: function (request, reply) {
-        reply('Hello, world!');
+        reply('Hello, hapi!');
     }
   },
   {
@@ -24,6 +24,15 @@ server.route([
     path: '/test2',
     handler: function (request, reply) {
         reply('test 2');
+    }
+  },
+  {
+    method: 'GET',
+    path: '/calculate/{value}',
+    handler(request, reply) {
+      setTimeout(()=> {
+        reply('Ok: ' + request.params.value);
+      }, request.params.value * 1000);
     }
   }
 ]);
